@@ -1,0 +1,14 @@
+{
+  "presets": [
+    [
+      "@babel/preset-react",
+      {
+        "pragma": "MiniatureReact.createElement", // default pragma is React.createElement (only in classic runtime)
+        "pragmaFrag": "MiniatureReactFrag", // default is React.Fragment (only in classic runtime)
+        "throwIfNamespace": false, // defaults to true
+        "runtime": "classic" // defaults to classic
+        // "importSource": "custom-jsx-library" // defaults to react (only in automatic runtime)
+      }
+    ]
+  ]
+}
