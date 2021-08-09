@@ -47,17 +47,41 @@ function Demo (props) {
 class Alert extends MiniatureReact.Component {
   constructor (props) {
     super(props)
+    this.state = {
+      title: 'default title'
+    }
+    this.handleClick = this.handleClick.bind(this)
+  }
+  handleClick () {
+    this.setState({
+      title: 'changed title'
+    })
+  }
+  componentWillReceiveProps () {
+    console.log('componentWillReceiveProps')
+  }
+  componentWillUpdate (props) {
+    console.log('componentWillUpdate')
+  }
+  componentDidUpdate (prevProps, prevState) {
+    console.log('componentDidUpdate')
   }
   render () {
     return (
       <div>
         {this.props.name} <br />
-        {this.props.age}
+        {this.props.age} <br />
+        {this.state.title} <br />
+        <button onClick={this.handleClick}>按钮</button>
       </div>
     )
   }
 }
 // MiniatureReact.render(<Alert name="张三" age={20} />, root)
+// setTimeout(() => {
+//   MiniatureReact.render(<Alert name="李四" age={28} />, root)
+//   // MiniatureReact.render(<Demo title="hello react" />, root)
+// }, 2000);
 
 
 const modifyDOM = (
@@ -70,14 +94,43 @@ const modifyDOM = (
     <h3>(观察: 这个将会被改变...)</h3>
     {2 == 1 && <div>如果2和1相等渲染当前内容</div>}
     {2 == 2 && <div>2</div>}
-    <span>这是一段内容</span>
+    {/* <span>这是一段内容</span> */}
     <button onClick={() => alert("你好 React")}>点击我</button>
-    <h3>这个将会被删除</h3>
+    {/* <h6>这个将会被删除</h6> */}
     2, 3
     <input type="text" />
   </div>
 )
-MiniatureReact.render(virtualDOM, root)
-setTimeout(() => {
-  MiniatureReact.render(modifyDOM, root)
-}, 2000)
+// MiniatureReact.render(virtualDOM, root)
+// setTimeout(() => {
+//   MiniatureReact.render(modifyDOM, root)
+// }, 2000)
+
+
+class DemoRef extends MiniatureReact.Component {
+  constructor(props) {
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
+  }
+  handleClick() {
+    console.log(this.input.value)
+    // console.log(this.input)
+    console.log(this.alert)
+  }
+  componentDidMount() {
+    console.log("componentDidMount")
+  }
+  componentWillUnmount() {
+    console.log("componentWillUnmount")
+  }
+  render() {
+    return (
+      <div>
+        <input type="text" ref={input => (this.input = input)} />
+        <button onClick={this.handleClick}>按钮</button>
+        <Alert ref={alert => (this.alert = alert)} name="张三" age={20} />
+      </div>
+    )
+  }
+}
+MiniatureReact.render(<DemoRef />, root)

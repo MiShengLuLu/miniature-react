@@ -1,7 +1,7 @@
 import mountElement from './mountElement'
 import updateNodeElement from './updateNodeElement'
 
-export default function createDOMElement (virtualDOM, container) {
+export default function createDOMElement (virtualDOM) {
   let newElement = null
   if (virtualDOM.type === 'text') {
     // 文本节点
@@ -18,6 +18,10 @@ export default function createDOMElement (virtualDOM, container) {
   virtualDOM.children.forEach(child => {
     mountElement(child, newElement)
   })
+
+  if (virtualDOM.props && virtualDOM.props.ref) {
+    virtualDOM.props.ref(newElement)
+  }
 
   return newElement
 }
